@@ -8,6 +8,7 @@ public class DataManager : MonoBehaviour
     public static DataManager Instance;
 
     public string userName;
+    public string topUserName;
     public int bestScore = 0;
 
     private void Awake()
@@ -37,12 +38,14 @@ public class DataManager : MonoBehaviour
         if(bestScore < score)
         {
             bestScore = score;
+            topUserName = userName;
         }
     }
 
     [System.Serializable]
     class Data
     {
+        public string topUserName;
         public string username;
         public int bestScore;
     }
@@ -50,6 +53,7 @@ public class DataManager : MonoBehaviour
     public void SaveData()
     {
         Data data = new Data();
+        data.topUserName = topUserName;
         data.username = userName;
         data.bestScore = bestScore;
 
@@ -64,6 +68,7 @@ public class DataManager : MonoBehaviour
         {
             string json = File.ReadAllText(path);
             Data data = JsonUtility.FromJson<Data>(json);
+            topUserName = data.topUserName;
             userName = data.username;
             bestScore = data.bestScore;
         }
